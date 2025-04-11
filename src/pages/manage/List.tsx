@@ -1,6 +1,9 @@
-import { FC, useState } from "react";
+import { FC } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useImmer } from "use-immer";
-import QuestionCard from "../components/QuestionCard";
+import { useTitle } from "ahooks";
+
+import QuestionCard from "../../components/QuestionCard";
 import styles from "./List.module.scss";
 
 const questions = [
@@ -39,6 +42,11 @@ const questions = [
 ];
 
 const List: FC = () => {
+  useTitle("调查问卷-我的问卷");
+
+  // const [searchParams] = useSearchParams();
+  // console.log("keyword", searchParams.get("keyword"));
+
   //问卷列表数据
   const [questionList, updateQuestionList] = useImmer(questions);
 
