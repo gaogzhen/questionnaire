@@ -1,13 +1,27 @@
+// import { FC, useEffect } from "react";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "antd";
+// import axios from "axios";
 import { MANAGE_INDEX_PATHNAME } from "../router";
 import styles from "./Home.module.scss";
+
+// import "../_mock/index.ts";
 
 const { Title, Paragraph } = Typography;
 
 const Home: FC = () => {
   const nav = useNavigate();
+
+  // useEffect(() => {
+  //   // fetch("/api/test")
+  //   //   .then((res) => res.json())
+  //   //   .then((data) => console.log("fetch data: ", data));
+  //   // mockjs 只能拦截XMLHttpRequest，不能拦截fetch请求
+
+  //   // mockjs 内部使用XMLHttpRequest API
+  //   axios.get("/api/question/200").then((res) => console.log("axios data ", res));
+  // }, []);
 
   // function clickHandler() {
   //   nav({

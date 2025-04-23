@@ -9,50 +9,24 @@ import {
   Button,
   Modal,
   message,
+  Spin,
 } from "antd";
 
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import ListSearch from "../../components/ListSearch";
 import styles from "./common.module.scss";
+import useLoadQuestionListData from "@/hooks/useLoadQuestionListData";
 
 const { Title } = Typography;
 const { confirm } = Modal;
 
-const questions = [
-  {
-    _id: "q1",
-    title: "问卷1",
-    isPublished: false,
-    isStar: true,
-    answerCount: 0,
-    createdAt: "3月10号 13:23",
-  },
-  {
-    _id: "q2",
-    title: "问卷2",
-    isPublished: true,
-    isStar: false,
-    answerCount: 3,
-    createdAt: "2月10号 13:23",
-  },
-  {
-    _id: "q3",
-    title: "问卷3",
-    isPublished: false,
-    isStar: true,
-    answerCount: 3,
-    createdAt: "1月10号 13:23",
-  },
-];
-
 const List: FC = () => {
   useTitle("调查问卷-回收站");
 
-  // const [searchParams] = useSearchParams();
-  // console.log("keyword", searchParams.get("keyword"));
-
   //问卷列表数据
-  const [questionList, updateQuestionList] = useState(questions);
+  const { data = {}, loading } = useLoadQuestionListData({ isDeleted: true });
+  const { list = [], total = 0 } = data;
+
   const columns = [
     {
       title: "标题",
@@ -101,10 +75,10 @@ const List: FC = () => {
         </Space>
       </div>
       <Table
-        dataSource={questionList}
+        dataSource={list}
         columns={columns}
         pagination={false}
-        rowKey={(r) => r._id}
+        rowKey={(q: any) => q._id}
         rowSelection={{
           type: "checkbox",
           onChange: (selectRowKeys) => {
@@ -126,7 +100,12 @@ const List: FC = () => {
         </div>
       </div>
       <div className={styles.content}>
-        {questionList.length === 0 && <Empty description="暂无数据" />}
+        {loading && (
+          <div style={{ textAlign: "center" }}>
+            <Spin />
+          </div>
+        )}
+        {!loading && list.length === 0 && <Empty description="暂无数据" />}
         {TableEle}
       </div>
       <div className={styles.footer}>分页</div>
