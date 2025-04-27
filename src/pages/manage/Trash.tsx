@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { useTitle } from "ahooks";
+import { useRequest, useTitle } from "ahooks";
 import {
   Typography,
   Empty,
@@ -17,6 +17,7 @@ import ListSearch from "../../components/ListSearch";
 import ListPage from "../../components/ListPage";
 import styles from "./common.module.scss";
 import useLoadQuestionListData from "@/hooks/useLoadQuestionListData";
+import { deleteQuestionsApi, recoverQuestionsApi } from "@/api/question";
 
 const { Title } = Typography;
 const { confirm } = Modal;
@@ -52,6 +53,28 @@ const List: FC = () => {
   // 选择ids集合
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
+  const { loading: recoverLoading, run: handleRecover } = useRequest(
+    async () => await recoverQuestionsApi(selectedIds),
+    {
+      manual: true,
+      onSuccess() {
+        message.success("恢复成功！");
+        // todo 查询问卷列表
+      },
+    },
+  );
+
+  const { loading: delLoading, run: handleDel } = useRequest(
+    async () => await deleteQuestionsApi(selectedIds),
+    {
+      manual: true,
+      onSuccess() {
+        message.success("删除成功！");
+        // todo 请求问卷列表
+      },
+    },
+  );
+
   function del() {
     confirm({
       title: "您确定要删除吗？",
@@ -59,7 +82,7 @@ const List: FC = () => {
       cancelText: "取消",
       content: "删除以后不可找回！",
       icon: <ExclamationCircleOutlined />,
-      onOk: () => message.success("删除成功"),
+      onOk: handleDel,
     });
   }
 
@@ -67,10 +90,18 @@ const List: FC = () => {
     <>
       <div style={{ marginBottom: "10px" }}>
         <Space>
-          <Button type="primary" disabled={selectedIds.length === 0}>
+          <Button
+            type="primary"
+            disabled={selectedIds.length === 0 || recoverLoading}
+            onClick={handleRecover}
+          >
             恢复
           </Button>
-          <Button danger disabled={selectedIds.length === 0} onClick={del}>
+          <Button
+            danger
+            disabled={selectedIds.length === 0 || delLoading}
+            onClick={del}
+          >
             彻底删除
           </Button>
         </Space>

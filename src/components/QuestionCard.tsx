@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button, Space, Divider, Tag, Popconfirm, Modal, message } from "antd";
 import {
@@ -9,7 +9,10 @@ import {
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
+
 import styles from "./QuestionCard.module.scss";
+import { useRequest } from "ahooks";
+import { duplicateQuestionApi, updateQuestionApi } from "@/api/question";
 
 type PropsType = {
   _id: string;
@@ -26,15 +29,50 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const nav = useNavigate();
   const { _id, title, isPublished, isStar, answerCount, createdAt } = props;
 
-  function duplicate() {
-    message.success("执行复制");
-  }
+  const [isStarState, setIsStarState] = useState(isStar);
+
+  const { loading: changeStarLoading, run: changeStar } = useRequest(
+    async () => {
+      await updateQuestionApi(_id, { isStar: !isStarState });
+    },
+    {
+      manual: true,
+      onSuccess() {
+        setIsStarState(!isStarState);
+        message.success("更新成功");
+        // todo 重新执行列表请求
+      },
+    },
+  );
+
+  const { loading: duplicateLoading, run: duplicate } = useRequest(
+    async () => await duplicateQuestionApi(_id),
+    {
+      manual: true,
+      onSuccess(res) {
+        message.success("复制成功！");
+        nav(`/question/edit/${res.id}`);
+        // todo重新执行列表请求
+      },
+    },
+  );
+
+  const { loading: delLoading, run: fakeDel } = useRequest(
+    async () => await updateQuestionApi(_id, { isDeleted: true }),
+    {
+      manual: true,
+      onSuccess() {
+        message.success("删除成功！");
+        // todo重新执行列表请求
+      },
+    },
+  );
 
   function del() {
     confirm({
       title: "确定要执行删除操作吗？",
       icon: <ExclamationCircleOutlined />,
-      onOk: () => message.success("删除成功"),
+      onOk: fakeDel,
     });
   }
 
@@ -46,7 +84,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
             to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}
           >
             <Space>
-              {isStar && <StarOutlined style={{ color: "red" }} />}
+              {isStarState && <StarOutlined style={{ color: "red" }} />}
               {title}
             </Space>
           </Link>
@@ -88,8 +126,14 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
         </div>
         <div className={styles.right}>
           <Space>
-            <Button type="text" size="small" icon={<StarOutlined />}>
-              {isStar ? "取消标星" : "标星"}
+            <Button
+              type="text"
+              size="small"
+              icon={<StarOutlined />}
+              onClick={changeStar}
+              disabled={changeStarLoading}
+            >
+              {isStarState ? "取消标星" : "标星"}
             </Button>
             <Popconfirm
               title="确定执行复制吗？"
@@ -97,7 +141,12 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               cancelText="取消"
               onConfirm={duplicate}
             >
-              <Button type="text" size="small" icon={<CopyOutlined />}>
+              <Button
+                type="text"
+                size="small"
+                icon={<CopyOutlined />}
+                disabled={duplicateLoading}
+              >
                 复制
               </Button>
             </Popconfirm>
@@ -106,6 +155,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
               size="small"
               icon={<DeleteOutlined />}
               onClick={del}
+              disabled={delLoading}
             >
               删除
             </Button>
