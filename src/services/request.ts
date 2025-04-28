@@ -1,8 +1,17 @@
 import axios from "axios";
 import { message } from "antd";
+import { AUTHORIZATION } from "@/constant";
+import { getToken } from "@/utils/userToken";
 
 const request = axios.create({
   timeout: 5000,
+});
+
+// request拦截：每次请求携带token
+request.interceptors.request.use((config) => {
+  // todo token 校验
+  config.headers[AUTHORIZATION] = `Bearer ${getToken()}`;
+  return config;
 });
 
 // response 拦截：统一处理errno和msg

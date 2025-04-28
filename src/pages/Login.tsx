@@ -1,16 +1,26 @@
 import { FC, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { Typography, Space, Form, Input, Button, Checkbox } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Typography,
+  Space,
+  Form,
+  Input,
+  Button,
+  Checkbox,
+  message,
+} from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
+import { useRequest } from "ahooks";
 
-import { REGISTER_PATHNAME } from "../router";
+import { MANAGE_INDEX_PATHNAME, REGISTER_PATHNAME } from "../router";
+import { loginApi } from "@/api/user";
 
 import styles from "./Register.module.scss";
-import Password from "antd/es/input/Password";
+import { setToken } from "@/utils/userToken";
 
 const { Title } = Typography;
 
-const USERNAME_KEY = "usename";
+const USERNAME_KEY = "username";
 const PASSWORD_KEY = "password";
 
 /**
@@ -44,6 +54,8 @@ function getUserInfoFromStorage() {
 }
 
 const Login: FC = () => {
+  const nav = useNavigate();
+
   // 表单组件初始化
   const [form] = Form.useForm();
   useEffect(() => {
@@ -52,15 +64,34 @@ const Login: FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const { run: handleLogin } = useRequest(
+    async (values) => {
+      const { username, password } = values;
+      return await loginApi(username, password);
+    },
+    {
+      manual: true,
+      onSuccess(res) {
+        message.success("登录成功");
+        // 存储token
+        const { token = "" } = res;
+        setToken(token);
+        // 跳转我的问卷
+        nav(MANAGE_INDEX_PATHNAME);
+      },
+    },
+  );
+
   function onFinish(values: any) {
     // todo 注册api
-    console.log(values);
+
     const { username, password, remember } = values || {};
     if (remember) {
       rememberUser(username, password);
     } else {
       deleteUserFromStorage(username, password);
     }
+    handleLogin({ username, password });
   }
 
   return (
@@ -93,7 +124,7 @@ const Login: FC = () => {
                 message: "字符长度再5-20之间",
               },
               {
-                pattern: /^\w$/,
+                pattern: /^\w+$/,
                 message: "只能是字母数字下划线",
               },
             ]}

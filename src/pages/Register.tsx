@@ -1,18 +1,36 @@
 import { FC } from "react";
-import { Link } from "react-router-dom";
-import { Typography, Space, Form, Input, Button } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { Typography, Space, Form, Input, Button, message } from "antd";
 import { UserAddOutlined } from "@ant-design/icons";
+import { useRequest } from "ahooks";
 
 import { LOGIN_PATHNAME } from "../router";
+import { registerApi } from "@/api/user";
 
 import styles from "./Register.module.scss";
 
 const { Title } = Typography;
 
 const Register: FC = () => {
+  const nav = useNavigate();
+
+  const { run: handleRegister } = useRequest(
+    async (values) => {
+      const { username, password, nickname } = values;
+      return await registerApi(username, password, nickname);
+    },
+    {
+      manual: true,
+      onSuccess() {
+        message.success("注册成功");
+        // 跳转登录页
+        nav(LOGIN_PATHNAME);
+      },
+    },
+  );
+
   function onFinish(values: any) {
-    // todo 注册api
-    console.log(values);
+    handleRegister(values);
   }
 
   return (
@@ -43,7 +61,7 @@ const Register: FC = () => {
                 message: "字符长度再5-20之间",
               },
               {
-                pattern: /^\w$/,
+                pattern: /^\w+$/,
                 message: "只能是字母数字下划线",
               },
             ]}
