@@ -73,9 +73,35 @@ const router = createBrowserRouter([
 
 export default router;
 
+// ------------------ 分割线 -------------------------
 // 常用地址设置常量
 
 export const HOME_PATHNAME = "/";
 export const LOGIN_PATHNAME = "/login";
 export const REGISTER_PATHNAME = "/register";
 export const MANAGE_INDEX_PATHNAME = "/manage/list";
+
+// 方法
+/**
+ * 是否是登录页或者注册页
+ * @param pathname 路径
+ * @returns 是否
+ */
+export function isLoginOrRegister(pathname: string) {
+  if ([LOGIN_PATHNAME, REGISTER_PATHNAME].includes(pathname)) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * 是否不需要用户信息
+ * @param pathname 路径
+ * @returns 是否
+ */
+export function isNotNeedUserInfo(pathname: string) {
+  if ([HOME_PATHNAME, LOGIN_PATHNAME, REGISTER_PATHNAME].includes(pathname)) {
+    return true;
+  }
+  return false;
+}
