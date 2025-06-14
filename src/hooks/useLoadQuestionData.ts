@@ -1,6 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useRequest } from "ahooks";
 import { getQuestionApi } from "@/api/question";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { resetComponents } from "@/store/componentsReducer";
 
 /**
  * 获取带加载状态的问卷信息
@@ -8,13 +11,38 @@ import { getQuestionApi } from "@/api/question";
  */
 function useLoadQuestionData() {
   const { id = "" } = useParams();
+  const dispatch = useDispatch();
+  // ajax 加载
+  const { data, loading, error, run } = useRequest(
+    async (id: string) => {
+      if (!id) {
+        throw new Error("没有问卷 id");
+      }
+      const data = await getQuestionApi(id);
+      return data;
+    },
+    {
+      manual: true,
+    },
+  );
 
-  async function load() {
-    const data = await getQuestionApi(id);
-    return data;
-  }
-  const { loading, data, error } = useRequest(load);
-  return { loading, data, error };
+  // 根据获取的data，设置store
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+    const { componentList = [] } = data;
+    // componentList 存入redux store
+    dispatch(resetComponents({ componentList }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+  // 根据id变化，加载问卷数据
+  useEffect(() => {
+    run(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  return { loading, error };
 }
 
 export default useLoadQuestionData;
