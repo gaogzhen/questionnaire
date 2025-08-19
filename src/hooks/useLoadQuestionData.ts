@@ -32,8 +32,15 @@ function useLoadQuestionData() {
       return;
     }
     const { componentList = [] } = data;
+
+    // 获取默认的 selectedId
+    let selectedId = "";
+    if (componentList.length > 0) {
+      selectedId = componentList[0].fe_id;
+    }
+
     // componentList 存入redux store
-    dispatch(resetComponents({ componentList }));
+    dispatch(resetComponents({ componentList, selectedId }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   // 根据id变化，加载问卷数据

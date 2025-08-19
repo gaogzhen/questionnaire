@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { produce } from "immer";
 import { ComponentPropsType } from "@/components/QuestionComponents";
 
 export type ComponentInfoType = {
@@ -10,10 +10,12 @@ export type ComponentInfoType = {
 };
 
 export type ComponentsStateType = {
+  selectedId: string;
   componentList: Array<ComponentInfoType>;
 };
 
 const INIT_STATE: ComponentsStateType = {
+  selectedId: "",
   componentList: [],
   // 其他扩展
 };
@@ -29,8 +31,14 @@ export const componentsSlice = createSlice({
     ) {
       return action.payload;
     },
+    // 切换选中组件
+    changeSelectedId: produce(
+      (draft: ComponentsStateType, action: PayloadAction<string>) => {
+        draft.selectedId = action.payload;
+      },
+    ),
   },
 });
 
-export const { resetComponents } = componentsSlice.actions;
+export const { resetComponents, changeSelectedId } = componentsSlice.actions;
 export default componentsSlice.reducer;
