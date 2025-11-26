@@ -3,6 +3,7 @@ export type QuestionTitlePropsType = {
   text?: string; // 标题文本内容
   level?: 1 | 2 | 3 | 4 | 5; // 标题级别，对应不同字号
   isCenter?: boolean; // 是否居中显示
+  onChange?: (newProps: QuestionTitlePropsType) => void;
 };
 
 // 问卷标题组件的默认属性

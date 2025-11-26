@@ -12,6 +12,7 @@ export type ComponentConfType = {
   title: string;
   type: string;
   Component: FC<ComponentPropsType>;
+  PropComponent: FC<ComponentPropsType>;
   defaultProps: ComponentPropsType;
 };
 
@@ -19,6 +20,20 @@ export type ComponentConfType = {
 const componentConfList: ComponentConfType[] = [
   QuestionInputConf,
   QuestionTitleConf,
+];
+
+// 组件分组
+export const componentConfGroup = [
+  {
+    groupId: "titleGroup",
+    groupName: "标题组件",
+    components: [QuestionTitleConf],
+  },
+  {
+    groupId: "inputGroup",
+    groupName: "输入组件",
+    components: [QuestionInputConf],
+  },
 ];
 
 // 根据组件类型获取组件

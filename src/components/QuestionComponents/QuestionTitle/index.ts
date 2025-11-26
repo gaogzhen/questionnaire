@@ -5,6 +5,7 @@
 
 // 引入问卷标题组件
 import Component from "./Component";
+import PropComponent from "./PropComponent";
 // 引入问卷标题组件的默认属性
 import { QuestionTitleDefaultProps } from "./interface";
 
@@ -16,5 +17,6 @@ export default {
   title: "标题", // 组件名称
   type: "questionTitle", // 组件类型标识
   Component, // 组件本体
+  PropComponent,
   defaultProps: QuestionTitleDefaultProps, // 组件默认属性
 };
