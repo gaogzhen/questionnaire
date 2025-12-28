@@ -9,6 +9,7 @@ import styles from "./index.module.scss";
 import EditCanvas from "./EditCanvas";
 import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
+import EditHeader from "./EditHeader";
 
 const Edit: FC = () => {
   // 获取问卷信息
@@ -21,7 +22,9 @@ const Edit: FC = () => {
 
   return (
     <div className={styles.container}>
-      <div style={{ backgroundColor: "#fff", height: "40px" }}>Header</div>
+      <div style={{ backgroundColor: "#fff", height: "40px" }}>
+        <EditHeader />
+      </div>
       <div className={styles["content-wrapper"]}>
         <div className={styles.content}>
           <div className={styles.left}>
