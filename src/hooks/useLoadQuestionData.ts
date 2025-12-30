@@ -40,7 +40,9 @@ function useLoadQuestionData() {
     }
 
     // componentList 存入redux store
-    dispatch(resetComponents({ componentList, selectedId }));
+    dispatch(
+      resetComponents({ componentList, selectedId, copiedComponent: null }),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   // 根据id变化，加载问卷数据

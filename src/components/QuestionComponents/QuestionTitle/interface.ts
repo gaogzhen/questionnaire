@@ -4,6 +4,7 @@ export type QuestionTitlePropsType = {
   level?: 1 | 2 | 3 | 4 | 5; // 标题级别，对应不同字号
   isCenter?: boolean; // 是否居中显示
   onChange?: (newProps: QuestionTitlePropsType) => void;
+  disabled?: boolean;
 };
 
 // 问卷标题组件的默认属性
