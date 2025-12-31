@@ -140,6 +140,24 @@ export const componentsSlice = createSlice({
       copiedComponent.fe_id = nanoid();
       insertNewComponent(draft, copiedComponent);
     }),
+    // 选中上一个组件
+    selectPreviousComponent: produce((draft: ComponentsStateType) => {
+      const { componentList = [], selectedId } = draft;
+      const index = componentList.findIndex((c) => c.fe_id === selectedId);
+      if (index <= 0) {
+        return;
+      }
+      draft.selectedId = componentList[index - 1].fe_id;
+    }),
+    // 选中下一个组件
+    selectNextComponent: produce((draft: ComponentsStateType) => {
+      const { componentList = [], selectedId } = draft;
+      const index = componentList.findIndex((c) => c.fe_id === selectedId);
+      if (index >= componentList.length - 1) {
+        return;
+      }
+      draft.selectedId = componentList[index + 1].fe_id;
+    }),
   },
 });
 
@@ -153,5 +171,7 @@ export const {
   toggleComponentLocked,
   copySelectedComponent,
   pasteCopiedComponent,
+  selectPreviousComponent,
+  selectNextComponent,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;

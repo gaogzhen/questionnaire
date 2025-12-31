@@ -11,6 +11,7 @@ import { ComponentInfoType } from "@/store/componentsReducer";
 import { useDispatch } from "react-redux";
 import classNames from "classnames";
 import { changeSelectedId } from "@/store/componentsReducer";
+import useBindCanvasKeyPress from "@/hooks/useBindCanvasKeyPress";
 
 type PropsType = {
   loading: boolean;
@@ -35,6 +36,8 @@ const EditCanvas: FC<PropsType> = ({ loading }) => {
     e.stopPropagation();
     dispatch(changeSelectedId(fe_id));
   }
+  // 绑定快捷键
+  useBindCanvasKeyPress();
 
   if (loading) {
     return (
