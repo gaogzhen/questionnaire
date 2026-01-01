@@ -52,7 +52,7 @@ const ComponentLib: FC = () => {
               level={3}
               style={{
                 fontSize: "16px",
-                marginTop: index === 0 ? "0" : "20px",
+                marginTop: index > 0 ? "20px" : "0",
               }}
             >
               {groupName}
