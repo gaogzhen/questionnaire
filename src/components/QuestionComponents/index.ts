@@ -6,11 +6,18 @@ import QuestionParagraphConf, {
   QuestionParagraphPropsType,
 } from "./QuestionParagraph";
 import QuestionInfoConf, { QuestionInfoPropsType } from "./QuestionInfo";
+import QuestionTextareaConf, {
+  QuestionTextareaPropsType,
+} from "./QuestionTextarea";
+import QuestionRadioConf, { QuestionRadioPropsType } from "./QuestionRadio";
+
 // 各个组件属性类型
 export type ComponentPropsType = QuestionInputPropsType &
   QuestionTitlePropsType &
   QuestionParagraphPropsType &
-  QuestionInfoPropsType;
+  QuestionInfoPropsType &
+  QuestionTextareaPropsType &
+  QuestionRadioPropsType;
 
 // 统一组件配置
 export type ComponentConfType = {
@@ -27,6 +34,8 @@ const componentConfList: ComponentConfType[] = [
   QuestionTitleConf,
   QuestionParagraphConf,
   QuestionInfoConf,
+  QuestionTextareaConf,
+  QuestionRadioConf,
 ];
 
 // 组件分组
@@ -39,7 +48,12 @@ export const componentConfGroup = [
   {
     groupId: "inputGroup",
     groupName: "输入组件",
-    components: [QuestionInputConf],
+    components: [QuestionInputConf, QuestionTextareaConf],
+  },
+  {
+    groupId: "selectGroup",
+    groupName: "选择组件",
+    components: [QuestionRadioConf],
   },
 ];
 
