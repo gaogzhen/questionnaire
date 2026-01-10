@@ -1,0 +1,17 @@
+/**
+ * @description 问卷 单选框
+ * @author gaogzhen
+ */
+import Component from "./Component";
+import PropComponent from "./PropComponent";
+import { QuestionCheckboxDefaultProps } from "./interface";
+
+export * from "./interface";
+
+export default {
+  title: "复选框",
+  type: "questionCheckbox",
+  Component,
+  PropComponent,
+  defaultProps: QuestionCheckboxDefaultProps,
+};

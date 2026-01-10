@@ -19,11 +19,16 @@ const Component: FC<QuestionRadioPropsType> = (
   return (
     <div>
       <Paragraph strong>{title}</Paragraph>
-      <Radio.Group>
+      <Radio.Group value={value}>
         <Space direction={isVertical ? "vertical" : "horizontal"}>
-          {options.map((option) => {
-            const { value = "", label = "" } = option;
-            return <Radio value={value}>{label}</Radio>;
+          {options.map((option, index) => {
+            const { value = "", text = "" } = option;
+            // 使用 value 或 index 作为唯一 key
+            return (
+              <Radio key={value || index} value={value}>
+                {text}
+              </Radio>
+            );
           })}
         </Space>
       </Radio.Group>
