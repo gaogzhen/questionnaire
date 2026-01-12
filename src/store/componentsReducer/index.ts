@@ -158,6 +158,22 @@ export const componentsSlice = createSlice({
       }
       draft.selectedId = componentList[index + 1].fe_id;
     }),
+    // 修改组件标题
+    changeComponentTitle: produce(
+      (
+        draft: ComponentsStateType,
+        action: PayloadAction<{ fe_id: string; newTitle: string }>,
+      ) => {
+        const { componentList = [] } = draft;
+        const { fe_id, newTitle } = action.payload;
+        const curComp = componentList.find((c) => c.fe_id === fe_id);
+        if (curComp == null) {
+          return;
+        }
+
+        curComp.title = newTitle;
+      },
+    ),
   },
 });
 
@@ -173,5 +189,6 @@ export const {
   pasteCopiedComponent,
   selectPreviousComponent,
   selectNextComponent,
+  changeComponentTitle,
 } = componentsSlice.actions;
 export default componentsSlice.reducer;

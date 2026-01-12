@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Typography, Radio, Space } from "antd";
-import type {} from "antd";
 
 import { QuestionRadioPropsType, QuestionRadioDefaultProps } from "./interface";
 

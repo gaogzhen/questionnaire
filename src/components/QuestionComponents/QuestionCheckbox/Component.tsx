@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Typography, Checkbox, Space } from "antd";
-import type {} from "antd";
 
 import {
   QuestionCheckboxPropsType,
