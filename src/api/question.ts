@@ -52,7 +52,7 @@ export async function updateQuestionApi(
   opt: { [key: string]: any },
 ): Promise<ResDataType> {
   const url = `/api/question/${id}`;
-  const data = (await request.patch(url, opt)) as ResDataType;
+  const data = (await request.post(url, opt)) as ResDataType;
   return data;
 }
 

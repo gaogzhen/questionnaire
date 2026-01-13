@@ -4,6 +4,7 @@ import { getQuestionApi } from "@/api/question";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { resetComponents } from "@/store/componentsReducer";
+import { resetPageInfo } from "@/store/pageInfoReducer";
 
 /**
  * 获取带加载状态的问卷信息
@@ -31,7 +32,13 @@ function useLoadQuestionData() {
     if (!data) {
       return;
     }
-    const { componentList = [] } = data;
+    const {
+      title = "",
+      desc = "",
+      js = "",
+      css = "",
+      componentList = [],
+    } = data;
 
     // 获取默认的 selectedId
     let selectedId = "";
@@ -43,6 +50,8 @@ function useLoadQuestionData() {
     dispatch(
       resetComponents({ componentList, selectedId, copiedComponent: null }),
     );
+    // pageInfo 存入redux store
+    dispatch(resetPageInfo({ title, desc, js, css }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   // 根据id变化，加载问卷数据
