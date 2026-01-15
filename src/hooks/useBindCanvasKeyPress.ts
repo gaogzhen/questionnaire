@@ -14,7 +14,12 @@ import {
  */
 function isActiveElementValid() {
   const activeElement = document.activeElement;
+  // 未增加dnd-kit的拖拽功能，当活动元素为body时，认为有效
   if (activeElement === document.body) {
+    return true;
+  }
+  // 增加dnd-kit的拖拽功能后，当活动元素为dnd-kit的拖拽元素时，认为有效
+  if (activeElement?.matches("div[role='button']")) {
     return true;
   }
   return false;

@@ -8,6 +8,8 @@ import {
   UnlockOutlined,
   CopyOutlined,
   BlockOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -16,13 +18,16 @@ import {
   toggleComponentLocked,
   copySelectedComponent,
   pasteCopiedComponent,
+  moveComponent,
 } from "@/store/componentsReducer";
 import useGetComponentInfo from "@/hooks/useGetComponentInfo";
 
 const EditToolBar: FC = () => {
   const dispatch = useDispatch();
-  const { selectedId, selectedComponent, copiedComponent } =
+  const { selectedId, selectedComponent, copiedComponent, componentList } =
     useGetComponentInfo();
+
+  const selectedIndex = componentList.findIndex((c) => c.fe_id === selectedId);
   const { isLocked } = selectedComponent || {};
 
   // 删除组件
@@ -47,6 +52,25 @@ const EditToolBar: FC = () => {
   // 粘贴组件
   function handlePaste() {
     dispatch(pasteCopiedComponent());
+  }
+
+  // 上移组件
+  function handleMoveUp() {
+    if (selectedIndex <= 0) {
+      return;
+    }
+    dispatch(
+      moveComponent({ oldIndex: selectedIndex, newIndex: selectedIndex - 1 }),
+    );
+  }
+  // 下移组件
+  function handleMoveDown() {
+    if (selectedIndex >= componentList.length - 1) {
+      return;
+    }
+    dispatch(
+      moveComponent({ oldIndex: selectedIndex, newIndex: selectedIndex + 1 }),
+    );
   }
 
   return (
@@ -86,6 +110,20 @@ const EditToolBar: FC = () => {
           icon={<BlockOutlined />}
           onClick={handlePaste}
           disabled={copiedComponent == null}
+        ></Button>
+      </Tooltip>
+      <Tooltip title="上移">
+        <Button
+          shape="circle"
+          icon={<ArrowUpOutlined />}
+          onClick={handleMoveUp}
+        ></Button>
+      </Tooltip>
+      <Tooltip title="下移">
+        <Button
+          shape="circle"
+          icon={<ArrowDownOutlined />}
+          onClick={handleMoveDown}
         ></Button>
       </Tooltip>
     </Space>
