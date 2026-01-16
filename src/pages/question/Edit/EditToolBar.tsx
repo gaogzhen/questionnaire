@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
+import { ActionCreators } from "redux-undo";
 import { Button, Space, Tooltip } from "antd";
 import {
   DeleteOutlined,
@@ -10,6 +11,8 @@ import {
   BlockOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  UndoOutlined,
+  RedoOutlined,
 } from "@ant-design/icons";
 
 import {
@@ -73,6 +76,15 @@ const EditToolBar: FC = () => {
     );
   }
 
+  // 撤销
+  function handleUndo() {
+    dispatch(ActionCreators.undo());
+  }
+  // 重做
+  function handleRedo() {
+    dispatch(ActionCreators.redo());
+  }
+
   return (
     <Space>
       <Tooltip title="删除">
@@ -124,6 +136,20 @@ const EditToolBar: FC = () => {
           shape="circle"
           icon={<ArrowDownOutlined />}
           onClick={handleMoveDown}
+        ></Button>
+      </Tooltip>
+      <Tooltip title="撤销">
+        <Button
+          shape="circle"
+          icon={<UndoOutlined />}
+          onClick={handleUndo}
+        ></Button>
+      </Tooltip>
+      <Tooltip title="重做">
+        <Button
+          shape="circle"
+          icon={<RedoOutlined />}
+          onClick={handleRedo}
         ></Button>
       </Tooltip>
     </Space>

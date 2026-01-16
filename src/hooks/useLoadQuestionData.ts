@@ -37,6 +37,7 @@ function useLoadQuestionData() {
       desc = "",
       js = "",
       css = "",
+      isPublished = false,
       componentList = [],
     } = data;
 
@@ -51,7 +52,7 @@ function useLoadQuestionData() {
       resetComponents({ componentList, selectedId, copiedComponent: null }),
     );
     // pageInfo 存入redux store
-    dispatch(resetPageInfo({ title, desc, js, css }));
+    dispatch(resetPageInfo({ title, desc, js, css, isPublished }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
   // 根据id变化，加载问卷数据

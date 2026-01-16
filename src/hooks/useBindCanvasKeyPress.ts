@@ -1,5 +1,6 @@
 import { useKeyPress } from "ahooks";
 import { useDispatch } from "react-redux";
+import { ActionCreators } from "redux-undo";
 import {
   copySelectedComponent,
   pasteCopiedComponent,
@@ -65,6 +66,32 @@ function useBindCanvasKeyPress() {
     }
     dispatch(selectNextComponent());
   });
+  // 撤销
+  useKeyPress(
+    ["ctrl.z", "meta.z"],
+    () => {
+      if (!isActiveElementValid()) {
+        return;
+      }
+      dispatch(ActionCreators.undo());
+    },
+    {
+      exactMatch: true,
+    },
+  );
+  // 重做
+  useKeyPress(
+    ["ctrl.shift.z", "meta.shift.z"],
+    () => {
+      if (!isActiveElementValid()) {
+        return;
+      }
+      dispatch(ActionCreators.redo());
+    },
+    {
+      exactMatch: true,
+    },
+  );
 }
 
 export default useBindCanvasKeyPress;
