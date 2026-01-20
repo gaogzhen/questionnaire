@@ -1,0 +1,52 @@
+.header-wrapper {
+  background-color: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 12px 0;
+}
+
+.header {
+  display: flex;
+  margin: 0 24px;
+
+  .left {
+    flex: 1;
+
+    h1 {
+      font-size: 18px;
+      margin-bottom: 0;
+      margin-top: 0;
+      line-height: 1;
+    }
+  }
+
+  .main {
+    flex: 1;
+    text-align: center;
+  }
+
+  .right {
+    flex: 1;
+    text-align: right;
+  }
+}
+
+// URL 输入框选中文本的样式
+.url-input {
+  // 选中文本时的样式
+  &::selection {
+    background-color: #1890ff; // 蓝色背景
+    color: #fff; // 白色文字
+  }
+  
+  // 兼容不同浏览器的选中样式
+  &::-moz-selection {
+    background-color: #1890ff;
+    color: #fff;
+  }
+  
+  // 选中时的 input 边框高亮
+  &:focus {
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  }
+}

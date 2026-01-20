@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  // height: 100vh;
   background-color: #f0f2f5;
 }
 
@@ -29,7 +29,7 @@
     .canvas-wrapper {
       position: absolute;
       width: 400px;
-      height: 712px;
+      height: 100vh;
       top: 50%;
       left: 50%;
       transform: translateX(-50%) translateY(-50%);

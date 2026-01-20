@@ -1,8 +1,10 @@
 import { FC } from "react";
 import { useDispatch } from "react-redux";
+import { useTitle } from "ahooks";
 
 import { changeSelectedId } from "@/store/componentsReducer";
 import useLoadQuestionData from "@/hooks/useLoadQuestionData";
+import useGetPageInfo from "@/hooks/useGetPageInfo";
 
 import styles from "./index.module.scss";
 
@@ -15,6 +17,10 @@ const Edit: FC = () => {
   // 获取问卷信息
   const { loading } = useLoadQuestionData();
   const dispatch = useDispatch();
+
+  const { title } = useGetPageInfo();
+  useTitle(`问卷编辑 - ${title}`);
+
   // 点击空白处，取消选中
   function handleClearSelected() {
     dispatch(changeSelectedId(""));
