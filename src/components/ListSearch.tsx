@@ -3,7 +3,7 @@ import type { ChangeEvent } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { Input } from "antd";
 
-import { LIST_SEARCH_PARAM_KEY } from "../constant";
+import { LIST_SEARCH_PARAM_KEY } from "@/constant/index";
 
 const { Search } = Input;
 

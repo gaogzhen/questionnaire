@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTitle } from "ahooks";
 import { Button, Result, Spin } from "antd";
@@ -7,12 +7,18 @@ import useGetPageInfo from "@/hooks/useGetPageInfo";
 
 import styles from "./index.module.scss";
 import StatHeader from "./StatHeader";
+import ComponentList from "./ComponentList";
+import PageStat from "./PageStat";
 
 const Stat: FC = () => {
+  const nav = useNavigate();
   // 获取问卷信息
   const { loading } = useLoadQuestionData();
   const { title, isPublished } = useGetPageInfo();
-  const nav = useNavigate();
+
+  // 状态提示 selectedId, type
+  const [selectedComponentId, setSelectedComponentId] = useState("");
+  const [selectedComponentType, setSelectedComponentType] = useState("");
 
   useTitle(`问卷统计 - ${title}`);
 
@@ -45,8 +51,20 @@ const Stat: FC = () => {
     }
     return (
       <>
-        <div className={styles.left}>left</div>
-        <div className={styles.main}>main</div>
+        <div className={styles.left}>
+          <ComponentList
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
+        <div className={styles.main}>
+          <PageStat
+            selectedComponentId={selectedComponentId}
+            setSelectedComponentId={setSelectedComponentId}
+            setSelectedComponentType={setSelectedComponentType}
+          />
+        </div>
         <div className={styles.right}>right</div>
       </>
     );

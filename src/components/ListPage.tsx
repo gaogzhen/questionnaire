@@ -7,7 +7,7 @@ import {
   LIST_PAGE_PARAM_KEY,
   LIST_PAGE_SIZE_DEFAULT,
   LIST_PAGE_SIZE_PARAM_KEY,
-} from "@/constant";
+} from "@/constant/index";
 
 type PropsType = {
   total: number;
