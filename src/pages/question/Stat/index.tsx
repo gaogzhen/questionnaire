@@ -9,6 +9,7 @@ import styles from "./index.module.scss";
 import StatHeader from "./StatHeader";
 import ComponentList from "./ComponentList";
 import PageStat from "./PageStat";
+import ChartStat from "./ChartStat";
 
 const Stat: FC = () => {
   const nav = useNavigate();
@@ -65,7 +66,12 @@ const Stat: FC = () => {
             setSelectedComponentType={setSelectedComponentType}
           />
         </div>
-        <div className={styles.right}>right</div>
+        <div className={styles.right}>
+          <ChartStat
+            selectedComponentId={selectedComponentId}
+            selectedComponentType={selectedComponentType}
+          />
+        </div>
       </>
     );
   }

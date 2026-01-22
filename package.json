@@ -30,6 +30,7 @@
     "react-dom": "18.3.1",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.5.0",
+    "recharts": "^3.7.0",
     "redux-undo": "^1.1.0",
     "use-immer": "^0.11.0",
     "yarn": "^1.22.22"
